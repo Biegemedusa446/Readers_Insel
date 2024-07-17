@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './Description.css';
-import Footer from './Footer';
+import Header from './Header';
 
 const Description = () => {
   const location = useLocation();
@@ -13,21 +13,21 @@ const Description = () => {
   if (!book) return <div>No book selected</div>;
 
   return (
-    <div className="description-page">
+    <div className="Description_description-page">
+      <Header />
       <main>
-        <div className="description-book-details">
-          <img src={book.imageLink} alt={book.name} className="book-image" />
-          <div className="description-book-info">
+        <div className="Description_description-book-details">
+          <img src={book.image_link} alt={book.name} className="Description_book-image" />
+          <div className="Description_description-book-info">
             <h2>{book.name}</h2>
             <p><strong>Author:</strong> {book.author}</p>
             <p><strong>Genre:</strong> {book.genre}</p>
-            <p><strong>Published Year:</strong> {book.publishedYear}</p>
+            <p><strong>Published Year:</strong> {book.published_year}</p>
             <p><strong>ISBN:</strong> {book.isbn}</p>
             <p><strong>Description:</strong> {book.description}</p>
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

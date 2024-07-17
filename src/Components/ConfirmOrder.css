@@ -1,138 +1,93 @@
-/* ConfirmOrder.css */
 html, body, #root {
-    height: 100%;
-    margin: 0;
-  }
-  
-  body {
-    background-color: #f9f3e5;
-    font-family: Arial, sans-serif;
-    color: #333;
-  }
-  
-  .confirm-order-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #e3dac9; /* Slightly darker shade */
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .logo {
-    font-size: 24px;
-  }
-  
-  .confirm-order-page main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  .cart-items {
-    width: 100%;
-    max-width: 600px;
-    margin-bottom: 20px;
-  }
-  
-  .cart-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .cart-item img {
-    width: 100px;
-    height: 150px;
-    object-fit: cover;
-    margin-right: 20px;
-  }
-  
-  .item-details {
-    flex: 1;
-  }
-  
-  .item-details h3 {
-    margin: 0;
-  }
-  
-  .item-details p {
-    margin: 5px 0;
-  }
-  
-  .summary {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    border-top: 1px solid #ccc;
-    text-align: right;
-  }
-  
-  .summary p {
-    margin: 10px 0;
-  }
-  
-  .payment-methods {
-    width: 100%;
-    max-width: 600px;
-    margin-top: 20px;
-  }
-  
-  .method {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .method label {
-    margin-left: 10px;
-    flex: 1;
-  }
-  
-  .method img {
-    width: 50px;
-    height: auto;
-  }
-  
-  .pay-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ccc;
-    color: #333;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .pay-button:hover {
-    background-color: #bbb;
-  }
-  
+  height: 100%;
+  margin: 0;
+}
 
-  .back-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ccc;
-    color: #333;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .back-button:hover {
-    background-color: #bbb;
-  }
-   
+body {
+  background-color: #f9f3e5;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.ConfirmOrder_confirm-order-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.ConfirmOrder_main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.ConfirmOrder_cart-items {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}
+
+.ConfirmOrder_cart-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.ConfirmOrder_cart-item img {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.ConfirmOrder_items-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.ConfirmOrder_items-details h3 {
+  margin: 0;
+}
+
+.ConfirmOrder_items-details p {
+  margin: 5px 0;
+}
+
+.ConfirmOrder_summary {
+  width: 100%;
+  max-width: 600px;
+  padding: 20px;
+  border-top: 1px solid #ccc;
+  text-align: right;
+}
+
+.ConfirmOrder_summary p {
+  margin: 10px 0;
+}
+
+.ConfirmOrder_payment-methods {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.ConfirmOrder_back-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ccc;
+  color: #333;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.ConfirmOrder_back-button:hover {
+  background-color: #bbb;
+}

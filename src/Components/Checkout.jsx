@@ -1,68 +1,65 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Checkout.css';
-import Footer from './Footer';
-import { getBasketItems, addToBasket, removeFromBasket, updateBasketItemQuantity } from './apiService'; // Import API functions
+import { getBasketItems, addToBasket, removeFromBasket, updateBasketItemQuantity, getAllProducts } from './apiService';
+import Header from './Header';
 
 const Checkout = () => {
   const [books, setBooks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCartItems = async () => {
+    const fetchData = async () => {
       try {
         const basket = await getBasketItems();
-        console.log('Fetched basket:', basket);
+        const allProducts = await getAllProducts();
 
-        // Check if the fetched data needs to be transformed
-        if (basket.items) {
-          const transformedBooks = basket.items.map(item => ({
-            id: item.id,
-            isbn: item.isbn,
-            quantity: item.quantity,
-            // Assuming these fields are present in the item or fetched separately
-            name: item.name || 'Unknown Book', 
-            author: item.author || 'Unknown Author', 
-            price: item.price || 0,
-            imageLink: item.imageLink || 'https://via.placeholder.com/150', 
-          }));
+        if (basket.items && Array.isArray(basket.items)) {
+          const transformedBooks = basket.items.map(item => {
+            const product = allProducts.find(p => p.isbn === item.isbn) || {};
+            return {
+              id: item.id,
+              isbn: item.isbn,
+              quantity: item.quantity,
+              name: product.name || 'Unknown Book',
+              author: product.author || 'Unknown Author',
+              price: product.price || 0,
+              imageLink: product.imageLink || 'https://via.placeholder.com/150',
+            };
+          });
+
           setBooks(transformedBooks);
         } else {
-          setBooks(basket);
+          console.error('Basket items are not an array:', basket.items);
         }
       } catch (error) {
-        console.error('Error fetching cart items:', error);
+        console.error('Error fetching data:', error);
       }
     };
 
-    fetchCartItems();
+    fetchData();
   }, []);
-
-  const handleWishlist = async (book) => {
-    try {
-      await addToBasket(book); // Add to wishlist logic can be handled here
-      alert('Added to wishlist');
-    } catch (error) {
-      console.error('Error adding to wishlist:', error);
-    }
-  };
 
   const handleRemove = async (book) => {
     try {
-      await removeFromBasket(book.id);
-      setBooks(books.filter(b => b.id !== book.id));
+      await removeFromBasket(book.isbn);
+      setBooks(books.filter(b => b.isbn !== book.isbn));
       alert('Removed from cart');
     } catch (error) {
       console.error('Error removing from cart:', error);
     }
   };
 
-  const handleQuantityChange = async (book, quantity) => {
+  const handleAddToCart = async (book) => {
     try {
-      await updateBasketItemQuantity(book.id, quantity);
-      setBooks(books.map(b => b.id === book.id ? { ...b, quantity } : b));
+      const orderLineItemsDto = {
+        isbn: book.isbn,
+        quantity: 1,
+      };
+      await addToBasket(orderLineItemsDto);
+      console.log(`Added ${book.name} to cart`);
     } catch (error) {
-      console.error('Error updating quantity:', error);
+      console.error('Error adding item to cart:', error);
     }
   };
 
@@ -82,45 +79,51 @@ const Checkout = () => {
   };
 
   return (
-    <div className="checkout-page">
-      <main>
-        <h2>Checkout</h2>
-        <div className="cart-items">
-          {Array.isArray(books) && books.map((book, index) => (
-            <div key={index} className="cart-item">
-              <img src={book.imageLink} alt={book.name} />
-              <div className="item-details">
-                <h3>{book.name}</h3>
-                <p><strong>Author:</strong> {book.author}</p>
-                <p><strong>Price:</strong> {book.price}€</p>
-                <div className="item-actions">
-                  <button onClick={() => handleWishlist(book)}>❤️</button>
-                  <button onClick={() => handleRemove(book)}>🗑️</button>
-                </div>
-              </div>
-              <div className="item-quantity">
-                <label htmlFor={`quantity-${index}`}>Quantity:</label>
-                <select
-                  id={`quantity-${index}`}
-                  value={book.quantity}
-                  onChange={(e) => handleQuantityChange(book, parseInt(e.target.value))}
-                >
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
-              </div>
-            </div>
-          ))}
+    <div className="Checkout_checkout-page">
+      <Header />
+      <main className="Checkout_main">
+        <h2>Shopping Cart</h2>
+        <div className="Checkout_cart-summary">
+          <p>{books.length} Items</p>
         </div>
-        <div className="summary">
+        <table className="Checkout_cart-table">
+          <thead>
+            <tr>
+              <th>Product Details</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(books) && books.map((book, index) => (
+              <tr key={index} className="Checkout_cart-item">
+                <td className="Checkout_item-details">
+                  <img src={book.imageLink} alt={book.name} />
+                  <div>
+                    <h3>{book.name}</h3>
+                    <p>{book.author}</p>
+                  </div>
+                </td>
+                <td className="Checkout_item-quantity">
+                  <button onClick={() => handleRemove(book)}>-</button>
+                  <input type="text" value={book.quantity} readOnly />
+                  <button onClick={() => handleAddToCart(book)}>+</button>
+                </td>
+                <td className="Checkout_item-price">{book.price.toFixed(2)}€</td>
+                <td className="Checkout_item-total">{(book.price * book.quantity).toFixed(2)}€</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="Checkout_summary">
           <p><strong>Sub-total:</strong> {subTotal.toFixed(2)}€</p>
           <p><strong>Delivery:</strong> {delivery.toFixed(2)}€</p>
           <p><strong>Total:</strong> {total.toFixed(2)}€</p>
-          <button className="checkout-button" onClick={handleCheckout}>Checkout</button>
+          <button className="Checkout_checkout-button" onClick={handleCheckout}>Checkout</button>
+          <button className="Checkout_continue-shopping" onClick={() => navigate('/')}>Continue Shopping</button>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

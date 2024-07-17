@@ -1,10 +1,10 @@
-/* Apply sans-serif font to the footer */
 .footer {
-  font-family: 'Arial', sans-serif;
+  display: block;
+  font-family: -apple-system, BlinkMacSystemFont, "San Francisco", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-align: center;
   padding: 20px;
-  background-color: #e3dac9; /* Slightly darker shade */
+  background-color: #a2957b;
   border-top: 1px solid #ccc;
-  font-size: 14px;
+  font-size: 18px;
   width: 100%;
 }
