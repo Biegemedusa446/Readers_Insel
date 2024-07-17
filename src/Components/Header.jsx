@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Typography, Button, IconButton, TextField, InputAdornment } from '@mui/material';
+import { useKeycloak } from '@react-keycloak/web';
+import { Box, Typography, Button, IconButton } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import SearchIcon from '@mui/icons-material/Search';
-import { useKeycloak } from '@react-keycloak/web';
 import './Header.css';
-import { getBasketItems } from './apiService';
+import { getBasketItems } from './apiService'; // Import the API function to get basket items
 
 const Header = ({ handleSearch }) => {
-  const { keycloak } = useKeycloak();
   const [searchQuery, setSearchQuery] = useState('');
   const [isError, setIsError] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // useNavigate hook
 
   const onSearch = () => {
     if (!searchQuery.trim()) {
@@ -26,31 +25,18 @@ const Header = ({ handleSearch }) => {
   const handleBasketClick = async () => {
     try {
       const basketItems = await getBasketItems();
-      console.log('Basket items:', basketItems);
-      navigate('/checkout', { state: { basketItems } });
+      console.log('Basket items:', basketItems); // You can handle the basket items as needed
+      navigate('/checkout', { state: { basketItems } }); // Pass basket items to the checkout page
     } catch (error) {
       console.error('Error fetching basket items:', error);
     }
   };
 
-  const handleLogout = () => {
-    keycloak.logout();
-  };
-
   return (
-    <Box className="header" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2, bgcolor: '#e3dac9', borderBottom: 1, borderColor: '#ccc' }}>
-      <Box className="logo-container" onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-        <LibraryBooksIcon 
-          sx={{ 
-            color: '#333', 
-            width: 40, 
-            height: 40, 
-            marginRight: 1, 
-            transition: 'color 0.3s, transform 0.3s', 
-            '&:hover': { color: '#555', transform: 'scale(1.1)' } 
-          }} 
-        />
-        <Typography className="logo-text" variant="h5" sx={{ color: '#333', transition: 'color 0.3s', '&:hover': { color: '#555' } }}>Reader’s Insel</Typography>
+    <Box className="Header_header" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 20px', backgroundColor: '#a2957b', height: '4rem' }}>
+      <Box className="Header_logo-container" onClick={() => navigate('/')} sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+        <LibraryBooksIcon className="Header_logo-icon" sx={{ color: '#333', width: '40px', height: '40px', marginRight: '10px', transition: 'color 0.3s, transform 0.3s' }} />
+        <Typography className="Header_logo-text" variant="h5" sx={{ fontSize: '24px', fontWeight: 'bold', color: '#333', transition: 'color 0.3s' }}>Reader’s Insel</Typography>
       </Box>
       <Box className="search-bar" sx={{ width: '300px', mx: 2 }}>
         <TextField 
@@ -94,9 +80,7 @@ const Header = ({ handleSearch }) => {
         />
       </Box>
       <Box className="nav">
-        {keycloak.authenticated && (
-          <Button onClick={handleLogout} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Logout</Button>
-        )}
+        <Button onClick={() => navigate('/login')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Log in</Button>
         <Button onClick={() => navigate('/profile')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Profile</Button>
         <Button onClick={() => navigate('/contact')} sx={{ mx: 1, border: 2, borderColor: '#333', color: '#333', transition: 'background-color 0.3s, color 0.3s', '&:hover': { bgcolor: '#333', color: '#fff' } }}>Contact</Button>
         <IconButton onClick={handleBasketClick} sx={{ mx: 1 }}>

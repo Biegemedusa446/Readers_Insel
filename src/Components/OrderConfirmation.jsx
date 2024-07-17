@@ -1,12 +1,13 @@
 import React from 'react';
-import Header from './Header';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './OrderConfirmation.css';
-import Footer from './Footer';
-
 import theKiteRunner from '../assets/TKR.jpg';
 import toxic from '../assets/Toxic.jpg';
+import Header from './Header';
 
-const OrderConfirmation = ({ navigate, goBack }) => {
+const OrderConfirmation = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const orderNumber = "#63718";
   const books = [
     {
@@ -25,24 +26,45 @@ const OrderConfirmation = ({ navigate, goBack }) => {
     },
   ];
 
-  const shippingAddress = {
-    name: "Olivia Johnson",
-    address: "Washington Street 7C, 1221, Princeton, New Jersey, United States",
+  const shippingAddress = location.state?.formData || {
+    name: "Unknown",
+    phone: "Unknown",
+    email: "Unknown",
+    street: "Unknown",
+    city: "Unknown",
+    zip: "Unknown",
+    shippingCountry: "Unknown",
+    shippingFirstName: "Unknown",
+    shippingLastName: "Unknown",
+    shippingStreet: "Unknown",
+    shippingCity: "Unknown",
+    shippingPlz: "Unknown",
     method: "Standard"
   };
 
+  console.log('Shipping Address:', shippingAddress); // Debugging log
+
+  const handleGoBack = () => {
+    navigate(-1); 
+  };
+
+  const handleContact = (event) => {
+    event.preventDefault();
+    navigate('/contact');
+  };
+
   return (
-    <div className="order-confirmation-page">
-      <Header navigate={navigate} />
-      <main>
+    <div className="oc_order-confirmation-page">
+      <Header />
+      <main className="oc_main">
         <h2>Order Confirmation</h2>
         <p>Thanks for your purchase. Your order <strong>{orderNumber}</strong> has been confirmed!</p>
         <h3>Order Details:</h3>
-        <div className="cart-items">
+        <div className="oc_cart-items">
           {books.map((book, index) => (
-            <div key={index} className="cart-item">
+            <div key={index} className="oc_cart-item">
               <img src={book.imgSrc} alt={book.title} />
-              <div className="item-details">
+              <div className="oc_item-details">
                 <h3>{book.title}</h3>
                 <p><strong>Author:</strong> {book.author}</p>
                 <p><strong>Price:</strong> {book.price}</p>
@@ -51,15 +73,16 @@ const OrderConfirmation = ({ navigate, goBack }) => {
             </div>
           ))}
         </div>
-        <div className="shipping-details">
+        <div className="oc_shipping-details">
           <h3>Shipping Details ({shippingAddress.method}) :</h3>
-          <p>{shippingAddress.name},</p>
-          <p>{shippingAddress.address}</p>
+          <p>{shippingAddress.shippingFirstName} {shippingAddress.shippingLastName},</p>
+          <p>{shippingAddress.shippingStreet}</p>
+          <p>{shippingAddress.shippingCity}, {shippingAddress.shippingPlz}</p>
+          <p>{shippingAddress.shippingCountry}</p>
         </div>
-        <p>Need help with your order? Reach out to our customer support team via <a href="#" onClick={() => navigate('contact')}>Contact Form</a>.</p>
-        <button className="back-button" onClick={goBack}>Back</button>
+        <p>Need help with your order? Reach out to our customer support team via <a onClick={handleContact}>Contact Form</a>.</p>
+        <button className="oc_back-button" onClick={handleGoBack}>Back</button>
       </main>
-      <Footer />
     </div>
   );
 };

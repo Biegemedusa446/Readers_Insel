@@ -1,4 +1,3 @@
-/* Description.css */
 html, body, #root {
   height: 100%;
   margin: 0;
@@ -12,14 +11,13 @@ body {
   color: #333;
 }
 
-/* Scoped to Description component */
-.description-page {
+.Description_description-page {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.description-header {
+.Description_description-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,12 +26,12 @@ body {
   border-bottom: 1px solid #ccc;
 }
 
-.description-logo {
+.Description_description-logo {
   font-size: 24px;
   font-weight: bold;
 }
 
-.description-header button {
+.Description_description-header button {
   background: none;
   border: 2px solid #333;
   color: #333;
@@ -44,12 +42,12 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.description-header button:hover {
+.Description_description-header button:hover {
   background-color: #333;
   color: #fff;
 }
 
-.description-book-details {
+.Description_description-book-details {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -65,7 +63,7 @@ body {
   margin-right: auto;
 }
 
-.description-book-details img {
+.Description_description-book-details img {
   width: 200px;
   height: 300px;
   object-fit: cover;
@@ -73,7 +71,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.description-book-info {
+.Description_description-book-info {
   max-width: 600px;
   padding: 20px;
   display: flex;
@@ -81,24 +79,24 @@ body {
   gap: 10px;
 }
 
-.description-book-info h2 {
+.Description_description-book-info h2 {
   margin-top: 0;
   font-size: 28px;
   color: #333;
 }
 
-.description-book-info p {
+.Description_description-book-info p {
   margin: 5px 0;
   line-height: 1.6;
   font-size: 16px;
   color: #555;
 }
 
-.description-book-info p strong {
+.Description_description-book-info p strong {
   color: #333;
 }
 
-.description-footer {
+.Description_description-footer {
   text-align: center;
   padding: 20px;
   background-color: #e3dac9;
@@ -108,7 +106,7 @@ body {
   color: #666;
 }
 
-.description-back-button {
+.Description_description-back-button {
   padding: 10px 20px;
   border: 2px solid #ccc;
   border-radius: 5px;
@@ -120,34 +118,33 @@ body {
   transition: background-color 0.3s, border-color 0.3s;
 }
 
-.description-back-button:hover {
+.Description_description-back-button:hover {
   background-color: #e3dac9;
   border-color: #bbb;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
-  .description-book-details {
+  .Description_description-book-details {
       flex-direction: column;
       align-items: center;
       padding: 10px;
       gap: 10px;
   }
 
-  .description-book-info {
+  .Description_description-book-info {
       max-width: 100%;
       padding: 10px;
   }
 
-  .description-book-info h2 {
+  .Description_description-book-info h2 {
       font-size: 24px;
   }
 
-  .description-book-info p {
+  .Description_description-book-info p {
       font-size: 14px;
   }
 
-  .description-book-details img {
+  .Description_description-book-details img {
       width: 150px;
       height: 225px;
   }

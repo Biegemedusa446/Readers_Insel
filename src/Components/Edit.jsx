@@ -1,21 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Box, TextField, Button, CircularProgress, Typography } from '@mui/material';
 import './Edit.css';
+import { getAllProducts, updateProduct } from './apiService';
+import Header from './Header';
 
-const Edit = ({ book, navigate, goBack }) => {
+const Edit = () => {
+  const { isbn } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: '',
     author: '',
     genre: '',
     published_year: '',
     isbn: '',
-    image_url: '',
+    image_link: '',
   });
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
   useEffect(() => {
-    if (book) {
-      setFormData(book);
-    }
-  }, [book]);
+    const fetchBook = async () => {
+      setLoading(true);
+      try {
+        const products = await getAllProducts();
+        const book = products.find(p => p.isbn === isbn);
+        if (book) {
+          setFormData(book);
+        } else {
+          setError('Book not found');
+        }
+      } catch (error) {
+        setError('Error fetching book details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBook();
+  }, [isbn]);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,97 +51,105 @@ const Edit = ({ book, navigate, goBack }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`http://localhost:4002/books/${book.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
-    if (response.ok) {
-      navigate('home');
-    } else {
-      console.error('Failed to update book');
+    setLoading(true);
+    setError('');
+    setSuccess('');
+    try {
+      const response = await updateProduct(formData.isbn, formData);
+      if (response) {
+        setSuccess('Book updated successfully!');
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
+      } else {
+        setError('Failed to update book');
+      }
+    } catch (error) {
+      setError('An error occurred while updating the book');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="edit-page">
-      <div className="edit-container">
-        <h2 className="edit-header">Edit Book</h2>
-        <form className="edit-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
+    <div>
+      <Header />
+      <Box className="Edit_edit-page">
+        <Box className="Edit_edit-container">
+          <Typography variant="h4" className="Edit_edit-header">Edit Book</Typography>
+          <form className="Edit_edit-form" onSubmit={handleSubmit}>
+            <TextField
+              label="Title"
               name="title"
               value={formData.title}
               onChange={handleChange}
               required
+              fullWidth
+              margin="normal"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="author">Author</label>
-            <input
-              type="text"
-              id="author"
+            <TextField
+              label="Author"
               name="author"
               value={formData.author}
               onChange={handleChange}
               required
+              fullWidth
+              margin="normal"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="genre">Genre</label>
-            <input
-              type="text"
-              id="genre"
+            <TextField
+              label="Genre"
               name="genre"
               value={formData.genre}
               onChange={handleChange}
               required
+              fullWidth
+              margin="normal"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="published_year">Published Year</label>
-            <input
-              type="text"
-              id="published_year"
+            <TextField
+              label="Published Year"
               name="published_year"
               value={formData.published_year}
               onChange={handleChange}
               required
+              fullWidth
+              margin="normal"
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="isbn">ISBN</label>
-            <input
-              type="text"
-              id="isbn"
+            <TextField
+              label="ISBN"
               name="isbn"
               value={formData.isbn}
               onChange={handleChange}
               required
+              fullWidth
+              margin="normal"
+              InputProps={{
+                readOnly: true,
+              }}
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="image_url">Image URL</label>
-            <input
-              type="text"
-              id="image_url"
-              name="image_url"
-              value={formData.image_url}
+            <TextField
+              label="Image URL"
+              name="image_link"
+              value={formData.image_link}
               onChange={handleChange}
               required
+              fullWidth
+              margin="normal"
             />
-          </div>
-          <div className="edit-buttons">
-            <button type="submit">Save</button>
-            <button type="button" onClick={goBack}>Cancel</button>
-          </div>
-        </form>
-      </div>
+            {formData.image_link && (
+              <Box className="Edit_image-preview">
+                <img src={formData.image_link} alt="Book" />
+              </Box>
+            )}
+            <Box className="Edit_edit-buttons">
+              <Button type="submit" variant="contained" color="primary" disabled={loading}>Save</Button>
+              <Button type="button" variant="outlined" color="secondary" onClick={() => navigate('/')}>Cancel</Button>
+            </Box>
+            {loading && <CircularProgress />}
+            {error && <Typography color="error">{error}</Typography>}
+            {success && <Typography color="primary">{success}</Typography>}
+          </form>
+        </Box>
+      </Box>
     </div>
   );
 };

@@ -1,116 +1,35 @@
-/* Contact.css */
 html, body, #root {
-    height: 100%;
-    margin: 0;
-  }
-  
-  body {
-    background-color: #f9f3e5;
-    font-family: Arial, sans-serif;
-    color: #333;
-  }
-  
-  .contact-page {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #e3dac9; /* Slightly darker shade */
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .logo {
-    font-size: 24px;
-  }
-  
-  .contact-page main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
-  
-  h2 {
-    margin-bottom: 20px;
-  }
-  
-  .contact-form {
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group input,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .form-group textarea {
-    resize: vertical;
-    height: 100px;
-  }
-  
-  .form-group.checkbox {
-    display: flex;
-    align-items: center;
-  }
-  
-  .form-group.checkbox input {
-    margin-right: 10px;
-  }
-  
-  .form-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .send-button,
-  .clear-button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ccc;
-    color: #333;
-    cursor: pointer;
-  }
-  
-  .send-button:hover,
-  .clear-button:hover {
-    background-color: #bbb;
-  }
-  
-  footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #e3dac9; /* Slightly darker shade */
-    border-top: 1px solid #ccc;
-    font-size: 14px;
-  }
-  .back-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #ccc;
-    color: #333;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  .back-button:hover {
-    background-color: #bbb;
-  }
-   
+  height: 100%;
+  margin: 0;
+}
+
+.Contact_contact-page main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.Contact_contact-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.Contact_form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.Contact_back-button {
+  margin-top: 20px;
+}
+
+.Contact_success-message {
+  margin-top: 20px;
+  color: green;
+  font-size: 18px;
+}
